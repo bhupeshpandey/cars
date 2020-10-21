@@ -1,9 +1,7 @@
 package model
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
-
 type AppConfig struct {
-	ServerConfig *ServerConfig `json:'serverConfig'`
+	ServerConfig *ServerConfig `json:"serverConfig"`
 	CacheConfig  *CacheConfig `json:"cacheConfig"`
 	DBConfig     *DBConfig `json:"dbConfig"`
 }
@@ -25,23 +23,38 @@ type CacheConfig struct {
 }
 
 type Cache interface {
-	Get(id string) string
-	Put(id, name string)
+	Get(id string) interface{}
+	Put(id string, value interface{})
 }
+
+//type SearchOption func() (string, interface{})
 
 type DB interface {
-	GetProducts() ([]Product, error)
-	GetCarWithId(id string) (Product, error)
-	GetAccessoryWithId(id string) (Product, error)
-	GetAccessories()([]Product, error)
-	GetCars()([]Product, error)
-	GetRecentItems()([]Product, error)
-	SetSelectedItem(product Product) (bool, error)
+	AddEmployee(employee Employee) (Employee, error)     // POST
+	UpdateEmployee(employee Employee) (bool, error)      // PUT
+	DeleteEmployee(employee Employee) (Employee, error)  // DELETE
+	RestoreEmployee(employee Employee) (Employee, error) // PUT
+    SearchEmployees(search string) ([]Employee, error) // GET
+    ListEmployees(search string) ([]Employee, error)   // GET
+
+	//GetCarWithId(id string) (Employee, error)
+	//GetAccessoryWithId(id string) (Employee, error)
+	//GetAccessories()([]Employee, error)
+	//GetCars()([]Employee, error)
+	//GetRecentItems()([]Employee, error)
+	//SetSelectedItem(product Employee) (bool, error)
 }
 
-type Product struct {
-	ID    primitive.ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name  string  `json:"name,omitempty" bson:"name,omitempty"`
-	Price float64 `json:"price" bson:"price,omitempty`
-	Type  string  `json:"type" bson:"type,omitempty"`
+
+type Employee struct {
+	ID         string `json:"empId,omitempty" bson:"empId,omitempty"`
+	Name       string `json:"name,omitempty" bson:"name,omitempty"`
+	Department string `json:"department" bson:"department,omitempty`
+	Address    string `json:"address,omitempty" bson:"address,omitempty`
+	Skills     string `json:"skills" bson:"skills,omitempty"`
+	Status     string `json:"status" bson:"status"`
+}
+
+type EmployeeCount struct {
+	Count int `json:"employeeCount" bson:"employeeCount"`
 }

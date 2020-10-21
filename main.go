@@ -1,27 +1,27 @@
 package main
 
 import (
-	"github.com/bhupeshpandey/cars/cache"
-	"github.com/bhupeshpandey/cars/config"
-	"github.com/bhupeshpandey/cars/db"
-	"github.com/bhupeshpandey/cars/server"
+	"github.com/bhupeshpandey/employees/cache"
+	"github.com/bhupeshpandey/employees/config"
+	"github.com/bhupeshpandey/employees/db"
+	"github.com/bhupeshpandey/employees/server"
 	"log"
 )
 
 func main() {
-    // TODO call your code here.
+	// TODO call your code here.
 	appConfig, err := config.ReadConfig()
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	db, err := db.New(appConfig.DBConfig)
+	dbInst, err := db.New(appConfig.DBConfig)
 
 	if err != nil {
 		log.Fatal(err)
 	}
-	s := server.New(appConfig.ServerConfig, cache.New(appConfig.CacheConfig), db)
+	s := server.New(appConfig.ServerConfig, cache.New(appConfig.CacheConfig), dbInst)
 
 	if s == nil {
 		log.Fatal("Unable to create server")

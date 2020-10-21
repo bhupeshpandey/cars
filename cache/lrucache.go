@@ -20,7 +20,7 @@ func NewLRU(capacity int) *LRUCache {
 }
 
 // Return the value of the key or -1 when it is not found
-func (cache *LRUCache) Get(key string) string {
+func (cache *LRUCache) Get(key string) interface{} {
 	// Check if exist
 	element, has := cache.hashTable[key]
 	// if not exist return -1
@@ -31,10 +31,10 @@ func (cache *LRUCache) Get(key string) string {
 	cache.linkedList.MoveBefore(element, cache.linkedList.Front())
 
 	// each element is the linked  list pointer where []int[0] is the index and the []int[1] is the value
-	return element.Value.([]string)[1]
+	return element.Value
 }
 
-func (cache *LRUCache) Put(key, value string) {
+func (cache *LRUCache) Put(key string, value interface{}) {
 	element, has := cache.hashTable[key]
 	if has {
 		// if has element with the key then add the new value
@@ -52,8 +52,8 @@ func (cache *LRUCache) Put(key, value string) {
 }
 
 // Create a new element in front of the list
-func createElementOnFrontOfList(cache *LRUCache, key, value string) {
-	front := cache.linkedList.PushFront([]string{key, value})
+func createElementOnFrontOfList(cache *LRUCache, key string, value interface{}) {
+	front := cache.linkedList.PushFront([]interface{}{key, value})
 	cache.hashTable[key] = front
 }
 

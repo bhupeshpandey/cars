@@ -1,7 +1,7 @@
 package cache
 
 import (
-	model "github.com/bhupeshpandey/cars/model"
+	model "github.com/bhupeshpandey/employees/model"
 )
 
 func New(cacheConfig *model.CacheConfig) model.Cache {
